@@ -75,15 +75,22 @@ nodePtr add2ListUtil(nodePtr head1, nodePtr head2, int &carry){
 nodePtr add2List(nodePtr head1, nodePtr head2 ){
 	// equate the length of both lists by appending 0 before shorter list
 	int len1 = getLengthOfList(head1), len2 = getLengthOfList(head2);
-	lenDiff = abs(len1-len2);
+
+	int lenDiff = abs(len1-len2);
+
 	nodePtr smaller = len1 < len2 ? head1 : head2;
 	nodePtr bigger  = len1 < len2 ? head2 : head1;
+	// cout<<"Length 1"<<len1<<endl;
 	for(int i=0; i<lenDiff; ++i)
 		smaller = new node(0, smaller);
+	// cout<<"List1"<<endl;
+	// printLinkedList(smaller);
+	// cout<<"List2"<<endl;
+	// printLinkedList(bigger);
 
 	// add lists by reccursion
 	int carry = 0;
-	nodePtr sumHead = add2List(smaller, bigger, carry);
+	nodePtr sumHead = add2ListUtil(smaller, bigger, carry);
 	if( carry )
 		sumHead = new node(carry, sumHead);
 	return sumHead;
@@ -93,11 +100,11 @@ nodePtr add2List(nodePtr head1, nodePtr head2 ){
 
 int main(){
 	// get Input linked list
-	vector<int> arr1 = {7,1,6};
+	vector<int> arr1 = {7,1,6, 8};
 	vector<int> arr2 = {5,9,5};
 	nodePtr head1 = getLinkedListFromVector(arr1);
 	nodePtr head2 = getLinkedListFromVector(arr2);
-
+	nodePtr list1 = head1, list2 = head2;
 	// add lists
 	nodePtr solnHead = new node();
 	nodePtr temp = solnHead;
@@ -123,7 +130,7 @@ int main(){
 	cout<<"Addition of two numbers( under part A assumption in the form of linked list:- ) "<<endl;
 	printLinkedList(solnHead);
 
-	nodePtr partBHead = add2List(head1, head2);
+	nodePtr partBHead = add2List(list1, list2);
 	cout<<"Addition of two numbers( under part B assumption in the form of linked list:- ) "<<endl;
 	printLinkedList(partBHead);
 
